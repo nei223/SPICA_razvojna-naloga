@@ -1,0 +1,92 @@
+import { Component, OnInit } from '@angular/core';
+import { Auth } from '../../services/auth';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-users',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './users.html',
+})
+export class Users implements OnInit {
+
+  users: any[] = [];
+
+  constructor(private auth: Auth, private http: HttpClient) {}
+
+  ngOnInit() {
+    this.auth.getUsers().subscribe((res: any) => {
+      this.users = res;
+      console.log('USERS:', res);
+    });
+  }
+
+  searchTerm='';
+
+  get filteredUsers(){
+  return this.users.filter(user =>(user.FirstName + ' ' + user.LastName)
+  .toLowerCase().includes(this.searchTerm.toLocaleLowerCase()));  
+  }
+
+
+  newUser = {
+    FirstName: '',
+    LastName: '',
+    Email: ''
+  }
+
+  loading = false;
+
+addUser(){
+this.loading = true;
+
+if(!this.newUser.FirstName || !this.newUser.LastName || !this.newUser.Email){
+  alert('Fill all fields!');
+  this.loading = false;
+  return;
+}
+
+if(!this.newUser.Email.includes('@')){
+  alert('Invalid email!');
+  this.loading = false;
+  return;
+}
+ 
+
+  const token = localStorage.getItem('token');
+
+  const body = {
+  firstName: this.newUser.FirstName,
+  lastName: this.newUser.LastName,
+  email: this.newUser.Email,
+  userName: this.newUser.Email,
+  isActive: true
+};
+
+  this.http.post(
+    'https://api4.allhours.com/api/v1/Users',
+    body,
+    {
+      headers:{
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  ).subscribe({
+    next: () => {
+      alert('USER ADDED!');
+      this.ngOnInit();
+
+      this.newUser = { FirstName: '', LastName: '', Email: '' };
+      this.loading = false;
+    },
+    error: (err) => {
+      console.log('ERROR:', err);
+      alert('Error adding user!');
+      this.loading = false;
+    }
+  });
+}
+}

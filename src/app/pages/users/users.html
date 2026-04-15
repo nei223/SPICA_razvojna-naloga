@@ -1,0 +1,27 @@
+<input placeholder="Search..." [(ngModel)]="searchTerm" />
+
+<br>
+
+<h3>ADD USER</h3>
+<input placeholder="First name" [(ngModel)]="newUser.FirstName" />
+<input placeholder="Last name" [(ngModel)]="newUser.LastName" />
+<input placeholder="Email" [(ngModel)]="newUser.Email" />
+
+<button (click)="addUser()" [disabled]="loading">Add</button>
+<br>
+<br>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Ime</th>
+      <th>Priimek</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let user of filteredUsers">
+      <td>{{ user.FirstName }}</td>
+      <td>{{ user.LastName }}</td>
+    </tr>
+  </tbody>
+</table>
