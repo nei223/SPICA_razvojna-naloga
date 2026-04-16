@@ -14,7 +14,7 @@ export const authGuard: CanActivateFn = () => {
 
   //preveri ali se client id pa secret ujemata z vrednostmi
   
-  if (clientId !== 'gNa0rGEkFYcBrU8qAevzCzPZe' || clientSecret !== 'ia1QN38I0TMMX1BdZ3yKhSVswtXCzxqP5UTNpgOzlxJBvCui5z') {
+  if (clientId !== 'user123456' || clientSecret !== 'geslo123456') {
     router.navigate(['/settings'], {
       queryParams: { error: 'Wrong client ID or client secret!' }
     });

@@ -31,8 +31,8 @@ export class Settings implements OnInit {
   localStorage.setItem('clientSecret', this.clientSecret);
 
   if (
-    this.clientId === 'gNa0rGEkFYcBrU8qAevzCzPZe' &&
-    this.clientSecret === 'ia1QN38I0TMMX1BdZ3yKhSVswtXCzxqP5UTNpgOzlxJBvCui5z'
+    this.clientId === 'user123456' &&
+    this.clientSecret === 'geslo123456'
   ) {
     this.error = '';
     this.router.navigate(['/users']); 
@@ -52,6 +52,10 @@ ngOnInit() {
   this.route.queryParams.subscribe(params => {
     this.error = params['error'] || '';
   });
+
+  const clientId = localStorage.getItem('clientId');
+const clientSecret = localStorage.getItem('clientSecret');
+
 }
 
 
@@ -60,4 +64,6 @@ saveToken() {
   localStorage.setItem('token', this.token);
   alert('Token saved!');
 }
+
+
 }
