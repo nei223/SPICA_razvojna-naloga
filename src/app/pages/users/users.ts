@@ -13,15 +13,23 @@ import { HttpClient } from '@angular/common/http';
 export class Users implements OnInit {
 
   users: any[] = [];
+  definitions: any[] = [];
+
+  absenceForms: { [key: string]: any } = {};
 
   constructor(private auth: Auth, private http: HttpClient) {}
 
   ngOnInit() {
-    this.auth.getUsers().subscribe((res: any) => {
-      this.users = res;
-      console.log('USERS:', res);
-    });
-  }
+  this.auth.getUsers().subscribe((res: any) => {
+    this.users = res;
+  });
+
+  this.auth.getAbsenceDefinitions().subscribe((res: any) => {
+    this.definitions = res;
+  });
+}
+
+
 
   searchTerm='';
 
@@ -86,6 +94,39 @@ if(!this.newUser.Email.includes('@')){
       console.log('ERROR:', err);
       alert('Error adding user!');
       this.loading = false;
+    }
+  });
+}
+
+addAbsence(userId: string) {
+  const form = this.absenceForms[userId];
+
+  if (!form || !form.absenceDefinitionId || !form.start || !form.end) {
+    alert('Fill all absence fields!');
+    return;
+  }
+
+  const body = {
+  UserId: userId,
+  AbsenceDefinitionId: form.absenceDefinitionId,
+  Timestamp: new Date(form.start).toISOString(),
+
+  PartialTimeFrom: new Date(form.start).toISOString(),
+  PartialTimeTo: new Date(form.end).toISOString(),
+
+  IsPartial: true,
+  Origin: 0
+};
+
+  this.auth.addAbsence(body).subscribe({
+    next: () => {
+      alert('Absence added!');
+
+      this.absenceForms[userId] = {};
+    },
+    error: (err) => {
+      console.error('Error adding absence:', err);
+      alert('Failed to add absence!');
     }
   });
 }
