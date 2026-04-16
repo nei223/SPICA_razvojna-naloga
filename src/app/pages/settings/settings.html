@@ -1,18 +1,33 @@
-<h1>TEST SETTINGS DELA</h1>
-
-
-<div>
-  <label>Client ID:</label><br>
-  <input [(ngModel)]="clientId" />
+<div *ngIf="error" style="color:red; margin-bottom:10px;">
+  {{ error }}
 </div>
 
-<br>
+<div class="card">
+  <h2>Settings</h2>
 
-<div>
-  <label>Client Secret:</label><br>
-  <input [(ngModel)]="clientSecret" />
+  <div class="row">
+    <div>
+      <label>Client ID</label><br>
+      <input [(ngModel)]="clientId" />
+    </div>
+
+    <div>
+      <label>Client Secret</label><br>
+      <input type="password" [(ngModel)]="clientSecret" />    </div>
+  </div>
+
+  <br>
+
+  <button (click)="saveSettings()">Save</button>
+
+  <br><br>
+
+  <div>
+    <label>Token</label><br>
+    <input type="password" [(ngModel)]="token" />
+  </div>
+
+  <br>
+
+  <button (click)="saveToken()">Save token</button>
 </div>
-
-<br>
-
-<button (click)="saveSettings()">Save</button>

@@ -1,27 +1,59 @@
-<input placeholder="Search..." [(ngModel)]="searchTerm" />
+<div class="card">
+  <h2>Users</h2>
 
-<br>
+  <input placeholder="Search users..." [(ngModel)]="searchTerm" />
+</div>
 
-<h3>ADD USER</h3>
-<input placeholder="First name" [(ngModel)]="newUser.FirstName" />
-<input placeholder="Last name" [(ngModel)]="newUser.LastName" />
-<input placeholder="Email" [(ngModel)]="newUser.Email" />
+<div class="card">
+  <h3>Add user</h3>
 
-<button (click)="addUser()" [disabled]="loading">Add</button>
-<br>
-<br>
-<table border="1">
-  <thead>
-    <tr>
-      <th>Ime</th>
-      <th>Priimek</th>
-    </tr>
-  </thead>
+  <div class="row">
+    <input placeholder="First name" [(ngModel)]="newUser.FirstName" />
+    <input placeholder="Last name" [(ngModel)]="newUser.LastName" />
+    <input placeholder="Email" [(ngModel)]="newUser.Email" />
 
-  <tbody>
-    <tr *ngFor="let user of filteredUsers">
-      <td>{{ user.FirstName }}</td>
-      <td>{{ user.LastName }}</td>
-    </tr>
-  </tbody>
-</table>
+    <button (click)="addUser()" [disabled]="loading">
+      {{ loading ? 'Adding...' : 'Add' }}
+    </button>
+  </div>
+</div>
+
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Add absence</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let user of filteredUsers">
+        <td>{{ user.FirstName }}</td>
+        <td>{{ user.LastName }}</td>
+
+        <td>
+          <div class="row">
+            <select [(ngModel)]="(absenceForms[user.Id] ??= {}).absenceDefinitionId">
+              <option value="">Type</option>
+              <option *ngFor="let d of definitions" [value]="d.Id">
+                {{ d.Name }}
+              </option>
+            </select>
+
+            <input type="datetime-local"
+              [(ngModel)]="(absenceForms[user.Id] ??= {}).start" />
+
+            <input type="datetime-local"
+              [(ngModel)]="(absenceForms[user.Id] ??= {}).end" />
+
+            <button (click)="addAbsence(user.Id)">
+              Add
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

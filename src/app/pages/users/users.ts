@@ -12,13 +12,14 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Users implements OnInit {
 
-  users: any[] = [];
-  definitions: any[] = [];
+  users: any[] = []; //seznam uporabnikov
+  definitions: any[] = []; //seznam definicij
 
-  absenceForms: { [key: string]: any } = {};
+  absenceForms: { [key: string]: any } = {}; //shrani forme za oddajanje odsotnosti
 
   constructor(private auth: Auth, private http: HttpClient) {}
 
+  //dobi vse upo. in vse tipe odsotnosti
   ngOnInit() {
   this.auth.getUsers().subscribe((res: any) => {
     this.users = res;
@@ -29,24 +30,37 @@ export class Users implements OnInit {
   });
 }
 
-
-
+//iskalni niz
   searchTerm='';
 
-  get filteredUsers(){
-  return this.users.filter(user =>(user.FirstName + ' ' + user.LastName)
-  .toLowerCase().includes(this.searchTerm.toLocaleLowerCase()));  
+
+  //vrne filtriran seznam upo glede na vnos
+  //če ni vnost, NAJ BI vrglo vn vse upo (POGLEJ MAL)
+get filteredUsers() {
+  const term = this.searchTerm?.toLowerCase().trim();
+
+  if (!term) {
+    return this.users;
   }
 
+  return this.users.filter(user =>
+    (user.FirstName + ' ' + user.LastName)
+      .toLowerCase()
+      .includes(term)
+  );
+}
 
-  newUser = {
+  newUser = {//moodel za dodajanje novega upo.
+
     FirstName: '',
     LastName: '',
     Email: ''
   }
 
-  loading = false;
+loading = false;//flag za prikaz loading stanja
 
+
+//doda novega upo, preveri validacijo, post na api, pa se ga doda
 addUser(){
 this.loading = true;
 
@@ -63,9 +77,9 @@ if(!this.newUser.Email.includes('@')){
 }
  
 
-  const token = localStorage.getItem('token');
+const token = localStorage.getItem('token');
 
-  const body = {
+const body = { //body za api
   firstName: this.newUser.FirstName,
   lastName: this.newUser.LastName,
   email: this.newUser.Email,
@@ -73,7 +87,7 @@ if(!this.newUser.Email.includes('@')){
   isActive: true
 };
 
-  this.http.post(
+  this.http.post(//api klic za dodajanje upo
     'https://api4.allhours.com/api/v1/Users',
     body,
     {
@@ -98,6 +112,8 @@ if(!this.newUser.Email.includes('@')){
   });
 }
 
+
+//doda odsotnost, validira, pretvori datume v pravo formo, pošlje pod na api
 addAbsence(userId: string) {
   const form = this.absenceForms[userId];
 
@@ -106,6 +122,7 @@ addAbsence(userId: string) {
     return;
   }
 
+  //body za API (od-do finta)
   const body = {
   UserId: userId,
   AbsenceDefinitionId: form.absenceDefinitionId,

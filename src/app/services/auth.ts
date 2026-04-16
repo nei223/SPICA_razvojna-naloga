@@ -6,32 +6,64 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   providedIn: 'root',
 })
 export class Auth {
+// URL za OAuth token
 private tokenUrl = 'https://login.allhours.com/connect/token';
   constructor (private http: HttpClient){}
 
-  getToken(clientId: string, clientSecret: string){
-    const body = new HttpParams()
-    .set('grant_type', 'client_credentials');
-
-    const basicAuth = btoa(`${clientId}:${clientSecret}`);
-
-  return this.http.post<any>(this.tokenUrl, body.toString(), {
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Authorization': `Basic ${basicAuth}`
-  }
-});
-  }
-
+//dobi vse upo iz api in prebere token iz loc storage
 getUsers(){
   const token = localStorage.getItem('token');
 
   return this.http.get<any[]>('https://api4.allhours.com/api/v1/Users', {
     headers: {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}` //token gre v autgarization header
     }
   });
 }
+
+//dobi vse tipe odsotnosti
+getAbsenceDefinitions(){
+  const token = localStorage.getItem('token');
+
+  return this.http.get<any[]>(
+    'https://api4.allhours.com/api/v1/AbsenceDefinitions',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+}
+//dobi osnostons za določen čas
+getAbsences(date: string){
+  const token = localStorage.getItem('token');
+
+  return this.http.get<any[]>(
+    `https://api4.allhours.com/api/v1/Absences?date=${date}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+}
+
+//doda novo odsotnos upo
+addAbsence(body: any){
+  const token = localStorage.getItem('token');
+
+  return this.http.post(
+    'https://api4.allhours.com/api/v1/Absences',
+    body,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+}
+
 }
 
 

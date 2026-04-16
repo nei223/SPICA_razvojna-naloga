@@ -1,0 +1,32 @@
+<div class="card">
+  <h2>Absences</h2>
+
+  <div class="row">
+    <input type="date" [(ngModel)]="selectedDate" />
+
+    <button (click)="loadAbsences()">Search</button>
+    <button (click)="loadAllAbsences()">Show all</button>
+  </div>
+</div>
+
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Type</th>
+        <th>Start</th>
+        <th>End</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let a of absences">
+        <td>{{ a.FirstName }} {{ a.LastName }}</td>
+        <td>{{ a.AbsenceDefinitionName }}</td>
+        <td>{{ (a.PartialTimeFrom || a.Timestamp) | date:'MM.dd.yyyy HH:mm' }}</td>
+        <td>{{ (a.PartialTimeTo || a.Timestamp) | date:'MM.dd.yyyy HH:mm' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

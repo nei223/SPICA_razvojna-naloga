@@ -1,11 +1,24 @@
 import { Routes } from '@angular/router';
-
 import { Users } from './pages/users/users';
-
+import { Absences } from './pages/absences/absences';
 import { Settings } from './pages/settings/settings';
-import { Component } from '@angular/core';
+import { authGuard } from './auth-guard';
 
-export const routes = [
-  { path: 'users', component: Users },
-  { path: 'settings', component: Settings}
+export const routes: Routes = [
+  { path: '', redirectTo: 'users', pathMatch: 'full' },
+
+  {
+    path: 'users',
+    component: Users,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'absences',
+    component: Absences,
+    canActivate: [authGuard]
+  },
+
+  { path: 'settings', component: Settings },
+
+  { path: '**', redirectTo: 'users' }
 ];
