@@ -61,9 +61,15 @@ const clientSecret = localStorage.getItem('clientSecret');
 
 //shrani token v loc storage, da ga lah uporabijo api klici drugje
 saveToken() {
-  localStorage.setItem('token', this.token);
+  const trimmedToken = this.token?.trim();
+
+  if (!trimmedToken) {
+    alert('Please enter a token!');
+    return;
+  }
+
+  localStorage.setItem('token', trimmedToken);
   alert('Token saved!');
 }
-
 
 }

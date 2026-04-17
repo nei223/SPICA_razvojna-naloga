@@ -3,6 +3,8 @@ import { Auth } from '../../services/auth';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-users',
@@ -14,7 +16,7 @@ export class Users implements OnInit {
 
   users: any[] = []; //seznam uporabnikov
   definitions: any[] = []; //seznam definicij
-
+  showAll = false;
   absenceForms: { [key: string]: any } = {}; //shrani forme za oddajanje odsotnosti
 
   constructor(private auth: Auth, private http: HttpClient) {}
@@ -48,6 +50,7 @@ get filteredUsers() {
       .toLowerCase()
       .includes(term)
   );
+  
 }
 
   newUser = {//moodel za dodajanje novega upo.
@@ -96,7 +99,11 @@ const body = { //body za api
         'Content-Type': 'application/json'
       }
     }
-  ).subscribe({
+   )
+  .pipe(
+    finalize(() => this.loading = false) 
+  )
+  .subscribe({
     next: () => {
       alert('USER ADDED!');
       this.ngOnInit();
@@ -119,6 +126,14 @@ addAbsence(userId: string) {
 
   if (!form || !form.absenceDefinitionId || !form.start || !form.end) {
     alert('Fill all absence fields!');
+    return;
+  }
+
+  const startDate = new Date(form.start);
+  const endDate = new Date(form.end);
+
+  if (endDate < startDate) {
+    alert('End date cannot be before start date!');
     return;
   }
 
