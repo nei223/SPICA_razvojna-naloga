@@ -78,15 +78,15 @@ Token se shrani v `localStorage` in se uporablja za vse API klice.
 * `Auth guard` prepreči dostop brez pravilnih podatkov
 * `Users` omogoča upravljanje uporabnikov
       * Omogoča filtriranje po imenih
-      * Omogoča dodajanje uporabnikov
-            - Vsa polja morajo biti izpolnjena
-            - E-pošta mora vsebovati @
-            - E-poštni naslov ne sme že prej obstajati
+      * Omogoča dodajanje uporabnikov:
+          * Vsa polja morajo biti izpolnjena
+          *  E-pošta mora vsebovati @
+          *  E-poštni naslov ne sme že prej obstajati
     	* Omogoča dodajanje odsotnosti
-            - Vsa polja morajo biti izpoljnena
-            - Konec odsotnosti ne more biti pred začetkom
+          * Vsa polja morajo biti izpoljnena
+          * Konec odsotnosti ne more biti pred začetkom
 * `Absences` omogoča pregled odsotnosti
-      * Omogoča filtriranje po datumih
+          * Omogoča filtriranje po datumih
 
 ## Tehnologije
 * Angular (standalone components)
