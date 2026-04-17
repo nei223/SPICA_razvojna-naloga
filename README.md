@@ -1,59 +1,110 @@
 # AllhoursApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+ Aplikacija zgrajena s pomočjo [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7., za upravljanje s entitetami.
 
-## Development server
+## Aplikacija omogoča:
+* pregled uporabnikov
+* dodajanje novih uporabnikov
+* dodajanje odsotnosti
+* pregled odsotnosti
+* nastavitev API dostopa (Client ID, Client Secret, Token)
 
-To start a local development server, run:
 
-```bash
-ng serve
-```
+## Zahteve
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Pred zagonom potrebujete:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+* Node.js (>= 18)
+* Angular CLI
 
 ```bash
-ng generate --help
+npm install -g @angular/cli
 ```
 
-## Building
+## Namestitev
 
-To build the project run:
+1. Klonirajte projekt:
 
 ```bash
-ng build
+git clone https://github.com/nei223/SPICA_razvojna-naloga
+cd SPICA_razvojna-naloga
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+2. Namestite odvisnosti:
 
 ```bash
-ng test
+npm install
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+3. Zaženite aplikacijo:
 
 ```bash
-ng e2e
+npx ng serve
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+4. Odprite v brskalniku:
 
-## Additional Resources
+```bash
+http://localhost:4200
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## Nastavitve
+
+Ob prvem zagonu te aplikacija preusmeri na **Settings**.
+
+Vnesti moraš:
+
+* **Client ID**
+* **Client Secret**
+* **Token**
+
+Client ID: user123456
+Client secret: gesli123456
+
+Če podatki niso pravilni dostop do aplikacije ni mogoč.
+
+## Token
+
+* ročno vnesete v Settings
+
+Token se shrani v `localStorage` in se uporablja za vse API klice.
+
+---
+## Kako deluje aplikacija
+## Features
+
+### Settings
+- shrani podatke v `localStorage`
+
+### Auth service
+- uporablja token za API klice
+
+### Auth guard
+- prepreči dostop brez pravilnih podatkov
+
+### Users
+- omogoča upravljanje uporabnikov  
+- omogoča filtriranje po imenih  
+
+#### Dodajanje uporabnikov
+- vsa polja morajo biti izpolnjena  
+- e-pošta mora vsebovati `@`  
+- e-poštni naslov ne sme že obstajati  
+
+#### Dodajanje odsotnosti
+- vsa polja morajo biti izpolnjena  
+- konec odsotnosti ne more biti pred začetkom  
+
+### Absences
+- omogoča pregled odsotnosti  
+- omogoča filtriranje po datumih  
+
+## Tehnologije
+* Angular (standalone components)
+* TypeScript
+* HttpClient (REST API)
+* LocalStorage (za shranjevanje podatkov)
+
+
