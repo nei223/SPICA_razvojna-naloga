@@ -72,4 +72,10 @@ saveToken() {
   alert('Token saved!');
 }
 
+deleteToken() {
+  localStorage.removeItem('token');
+  this.token = '';
+  alert('Token deleted!');
+}
+
 }
