@@ -61,7 +61,7 @@ Vnesti moraš:
 * **Token**
 
 Client ID: user123456
-Client secret: gesli123456
+Client secret: geslo123456
 
 Če podatki niso pravilni dostop do aplikacije ni mogoč.
 
