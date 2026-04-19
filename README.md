@@ -50,20 +50,21 @@ http://localhost:4200
 
 ---
 
-## Nastavitve
+## Nastavitve (POMEMBNO!)
 
 Ob prvem zagonu te aplikacija preusmeri na **Settings**.
 
 Vnesti moraš:
 
-* **Client ID**
-* **Client Secret**
-* **Token**
+* Client ID
+* Client Secret
+* Token
 
-Client ID: user123456
-Client secret: geslo123456
+**Client ID: user123456**
+**Client secret: geslo123456**
 
 Če podatki niso pravilni dostop do aplikacije ni mogoč.
+Mišjeno je bilo, da se bi sem not vstavil pravi CLient ID in Client Secret, a zaradi varnostnih razlogov, to ni implementirano tako.
 
 ## Token
 
